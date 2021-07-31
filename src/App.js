@@ -1,0 +1,11 @@
+import React, {Component} from "react";
+
+export class App extends Component {
+    render() {
+        return (
+            <div>
+                <h1 className="bb bg-info">React2!</h1>
+            </div>
+        );
+    }
+}
