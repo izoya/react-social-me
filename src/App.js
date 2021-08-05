@@ -1,15 +1,36 @@
-import React, {Component} from "react";
-import {Message} from "./components/Message/Message";
+import React, {useCallback, useState, useEffect} from 'react';
+import {Messages} from './components/Messages/Messages';
+import {Header} from './components/Header';
 
-export class App extends Component {
-    render() {
-        return (
-            <div>
-                <h1 className="bg-info">React!</h1>
-                <Message message="Hi! I'm Zoya.">
-                    No messages just yet.
-                </Message>
-            </div>
-        );
-    }
-}
+export const App = () => {
+    const [messages, setMessages] = useState([]);
+    const robotMessage = {
+        author: 'Robot',
+        text: 'You\'re welcome!',
+    };
+    let robotTimeout = null;
+
+    const handleAddMessage = useCallback(
+        (message) => setMessages(state => [...state, message]),
+        []
+    );
+    useEffect(() => {
+        const lastMessage = messages[messages.length - 1];
+        if (!lastMessage || lastMessage.author === robotMessage.author) return;
+
+        robotTimeout = setTimeout(() => handleAddMessage(robotMessage), 1500);
+
+        return () => {
+            clearInterval(robotTimeout);
+        };
+    }, [messages]);
+
+    return (
+        <>
+            <Header/>
+            <main className="container pt-5 mt-5">
+                <Messages messages={messages} addMessage={handleAddMessage}/>
+            </main>
+        </>
+    );
+};
