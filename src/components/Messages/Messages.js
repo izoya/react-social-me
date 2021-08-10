@@ -1,30 +1,34 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import PropTypes from 'prop-types';
 
 export const Messages = ({messages, addMessage}) => {
     const [author, setAuthor] = useState('');
     const [text, setText] = useState('');
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        inputRef.current.focus();
+    }, [inputRef]);
 
     const handleAddMessage = useCallback((e) => {
         e.preventDefault();
-        addMessage({author, text});
+        addMessage({
+            author,
+            text,
+        });
         setText('');
+        inputRef.current.focus();
     }, [author, text]);
 
     return (
         <>
-            <div className="d-flex align-items-center p-3 my-3 text-white bg-secondary rounded shadow-sm">
-                <i className="d-block"/>
-                <div className="lh-1">
-                    <h1 className="h6 mb-0 lh-1">Messages</h1>
-                </div>
-            </div>
             <div className="my-3 p-3 bg-body rounded shadow-sm">
                 {messages
                     ? messages.map((message, index) =>
                         <div className="d-flex text-muted pt-3" key={index}>
                             <svg className="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
-                                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
-                                 preserveAspectRatio="xMidYMid slice" focusable="false">
+                                xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+                                preserveAspectRatio="xMidYMid slice" focusable="false">
                                 <title>{message.author}</title>
                                 <rect width="100%" height="100%" fill="#e83e8c"/>
                                 <text x="50%" y="50%" fill="#e83e8c" dy=".3em">32x32</text>
@@ -53,6 +57,7 @@ export const Messages = ({messages, addMessage}) => {
                     <div className="mb-3">
                         <label htmlFor="text" className="form-label">Message</label>
                         <textarea
+                            ref={inputRef}
                             value={text}
                             className="form-control"
                             id="text"
@@ -61,10 +66,21 @@ export const Messages = ({messages, addMessage}) => {
                             onChange={(e) => setText(e.target.value)}/>
                     </div>
                     <button type="button" className="btn btn-primary" onClick={handleAddMessage}>
-                        Submit
+                    Submit
                     </button>
                 </form>
             </div>
         </>
     );
+};
+
+Messages.propTypes = {
+    messages: PropTypes.arrayOf(
+        PropTypes.shape({
+            author: PropTypes.string,
+            text: PropTypes.string,
+        })
+    ),
+    addMessage: PropTypes.func,
+    channel: PropTypes.object,
 };
