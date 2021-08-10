@@ -46,7 +46,8 @@ module.exports = {
                 next: 'return',
             },
         ],
-        'react/prop-types': 'off',
+        'react/prop-types': 'error',
+        'react/react-in-jsx-scope': 'off',
         semi: [2, 'always'],
     },
     overrides: [
