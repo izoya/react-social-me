@@ -1,12 +1,12 @@
 import React, {useCallback, useState} from 'react';
 
-export const Messages = props => {
+export const Messages = ({messages, addMessage}) => {
     const [author, setAuthor] = useState('');
     const [text, setText] = useState('');
 
     const handleAddMessage = useCallback((e) => {
         e.preventDefault();
-        props.addMessage({author, text});
+        addMessage({author, text});
         setText('');
     }, [author, text]);
 
@@ -19,8 +19,8 @@ export const Messages = props => {
                 </div>
             </div>
             <div className="my-3 p-3 bg-body rounded shadow-sm">
-                {props.messages
-                    ? props.messages.map((message, index) =>
+                {messages
+                    ? messages.map((message, index) =>
                         <div className="d-flex text-muted pt-3" key={index}>
                             <svg className="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
                                  xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"

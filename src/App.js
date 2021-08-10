@@ -8,7 +8,6 @@ export const App = () => {
         author: 'Robot',
         text: 'You\'re welcome!',
     };
-    let robotTimeout = null;
 
     const handleAddMessage = useCallback(
         (message) => setMessages(state => [...state, message]),
@@ -16,13 +15,10 @@ export const App = () => {
     );
     useEffect(() => {
         const lastMessage = messages[messages.length - 1];
+
         if (!lastMessage || lastMessage.author === robotMessage.author) return;
 
-        robotTimeout = setTimeout(() => handleAddMessage(robotMessage), 1500);
-
-        return () => {
-            clearInterval(robotTimeout);
-        };
+        setTimeout(() => handleAddMessage(robotMessage), 1500);
     }, [messages]);
 
     return (
