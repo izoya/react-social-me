@@ -41,7 +41,19 @@ export const Board = () => {
     const routeMatch = useRouteMatch();
     const history = useHistory();
 
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState([
+        {
+            channelId: 1,
+            messages: [],
+        }, {
+            channelId: 2,
+            messages: [],
+        }, {
+            channelId: 3,
+            messages: [],
+        },
+
+    ]);
     const [activeChannel, setActiveChannel] = useState({});
 
     useEffect(() => {
@@ -52,15 +64,12 @@ export const Board = () => {
 
     const handleAddMessage = useCallback(
         ({author, text, channel}) => setMessages(state => {
-            let currentChannel = state?.find((item) => {
+            const currentChannel = state?.find((item) => {
                 return item.channelId === channel.id;
             });
-            if (!currentChannel) {
-                currentChannel = {
-                    channelId: channel.id,
-                    messages: [],
-                };
-            }
+
+            if (!currentChannel) return;
+
             currentChannel.messages.push({author, text});
 
             setTimeout(() => setMessages(state => {
