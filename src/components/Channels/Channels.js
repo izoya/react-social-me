@@ -3,10 +3,12 @@ import {Avatar, List, ListItem, ListItemAvatar, ListItemText} from '@material-ui
 import {FolderRounded, FolderOpenRounded} from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import {Link, useParams, useHistory} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 
-export const Channels = ({channels, setChannel, activeChannel}) => {
+export const Channels = ({setChannel, activeChannel}) => {
     const params = useParams();
     const history = useHistory();
+    const {channels} = useSelector(state => state.channels);
 
     useEffect(() => {
         !channels.find(item => item.alias === params.channelAlias) &&
@@ -42,11 +44,4 @@ export const Channels = ({channels, setChannel, activeChannel}) => {
 Channels.propTypes = {
     setChannel: PropTypes.func.isRequired,
     activeChannel: PropTypes.object,
-    channels: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.number,
-            name: PropTypes.string,
-            alias: PropTypes.string,
-        })
-    ).isRequired,
 };
