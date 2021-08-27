@@ -13,11 +13,14 @@ export const Header = () => {
                 <div className="navbar-collapse" id="header-nav">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <Link className="nav-link active" to="/channels">Messages</Link>
+                            <Link className="nav-link" to="/channels">Messages</Link>
                         </li>
                         <div className="w-100"/>
                         <li className="nav-item">
-                            <Link className="nav-link active" to="/profile">Profile</Link>
+                            <Link className="nav-link" to="/profile">Profile</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/museum">Museum</Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link active" to="/nonexistent">404</Link>

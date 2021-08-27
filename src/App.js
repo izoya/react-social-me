@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Board, Header, Profile} from './components';
+import {Board, Header, Profile, Museum} from './components';
 import {Route, Switch, useHistory, useLocation} from 'react-router-dom';
 
 const DEFAULT_ROUTE = 'channels';
@@ -20,7 +20,8 @@ export const App = () => {
             <main className="container pt-5 mt-5">
                 <Switch>
                     <Route exact path="/profile" component={Profile}/>
-                    <Route path="/channels" component={Board} />
+                    <Route path="/channels" component={Board}/>
+                    <Route path="/museum" component={Museum}/>
                     <Route path="*">
                         <h3>Page not found</h3>
                     </Route>

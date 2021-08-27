@@ -3,9 +3,11 @@ import {botSendMessage} from './middleware';
 import {messagesReducer} from './messages';
 import {profileReducer} from './profile';
 import {channelsReducer} from './channels';
+import {museumReducer} from './museum';
 import thunk from 'redux-thunk';
 import {persistStore, persistReducer} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import {getDepartmentsApi, searchInDepartmentApi} from '../api/museum/endpoints';
 
 const persistConfig = {
     key: 'root',
@@ -17,13 +19,17 @@ const _persistReducer = persistReducer(
         profile: profileReducer,
         channels: channelsReducer,
         messages: messagesReducer,
+        museum: museumReducer,
     })
 );
 
 export const store = createStore(
     _persistReducer,
     compose(
-        applyMiddleware(thunk, botSendMessage),
+        applyMiddleware(
+            thunk.withExtraArgument({getDepartmentsApi, searchInDepartmentApi}),
+            botSendMessage
+        ),
         window.__REDUX_DEVTOOLS_EXTENSION__
             ? window.__REDUX_DEVTOOLS_EXTENSION__()
             : args => args
