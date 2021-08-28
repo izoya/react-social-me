@@ -1,7 +1,16 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-
+import {Link, useParams} from 'react-router-dom';
+const menu = [
+    {title: 'Messages', alias: 'channels'},
+    {title: 'Profile', alias: 'profile'},
+    {title: 'Museum', alias: 'museum'},
+    {title: 'Login', alias: 'login'},
+    {title: 'Signup', alias: 'signup'},
+];
 export const Header = () => {
+    const params = useParams();
+    const page = params[0] ? params[0].slice(1) : params.page;
+
     return (
         <nav className="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
             <div className="container-fluid">
@@ -11,21 +20,19 @@ export const Header = () => {
                 </button>
 
                 <div className="navbar-collapse" id="header-nav">
+                    {menu.length &&
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/channels">Messages</Link>
-                        </li>
-                        <div className="w-100"/>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/profile">Profile</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/museum">Museum</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link active" to="/nonexistent">404</Link>
-                        </li>
+                        {menu.map(item => (
+                            <li key={item.alias} className="nav-item">
+                                <Link
+                                    className={'nav-link' + (item.alias === page ? ' active' : '')}
+                                    to={'/' + item.alias}>
+                                    {item.title}
+                                </Link>
+                            </li>
+                        ))}
                     </ul>
+                    }
                 </div>
             </div>
         </nav>

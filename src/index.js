@@ -21,6 +21,7 @@ ReactDOM.render(
                 <ThemeProvider theme={theme}>
                     <BrowserRouter>
                         <Switch>
+                            <Route path="*/:page" component={App}/>
                             <Route path="*" component={App}/>
                         </Switch>
                     </BrowserRouter>
