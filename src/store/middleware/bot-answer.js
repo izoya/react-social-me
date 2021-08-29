@@ -1,4 +1,4 @@
-import {addMessage, ADD_MESSAGE} from '../messages';
+import {addMessageFB, ADD_MESSAGE} from '../messages';
 
 const botAnswer = {
     author: 'Robot',
@@ -9,7 +9,7 @@ export const botSendMessage = store => next => action => {
     const {type, payload} = action;
     if (type === ADD_MESSAGE && payload.message.author !== botAnswer.author) {
         setTimeout(() => {
-            store.dispatch(addMessage(
+            store.dispatch(addMessageFB(
                 botAnswer,
                 payload.channelAlias
             ));

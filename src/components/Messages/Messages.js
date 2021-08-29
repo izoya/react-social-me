@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import {Paper} from '@material-ui/core';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {useParams} from 'react-router-dom';
-import {addMessage} from '../../store/messages';
+import {addMessageFB} from '~/store/messages';
 
 export const Messages = ({classes}) => {
     const dispatch = useDispatch();
-    const [author, setAuthor] = useState('');
     const [text, setText] = useState('');
+    const {user} = useSelector(state => state.profile);
 
     const inputRef = useRef(null);
     const {channelAlias} = useParams();
@@ -20,14 +20,14 @@ export const Messages = ({classes}) => {
 
     const handleAddMessage = useCallback((e) => {
         e.preventDefault();
-        if (!text) return;
-        dispatch(addMessage(
-            {author, text},
+        if (!text || !user) return;
+        dispatch(addMessageFB(
+            {author: user?.email, text},
             channelAlias
         ));
         setText('');
         inputRef.current.focus();
-    }, [author, text, channelAlias]);
+    }, [user, text, channelAlias]);
 
     return (
         <Paper className={classes.paper}>
@@ -44,16 +44,6 @@ export const Messages = ({classes}) => {
                 }
                 <h6 className="border-bottom pb-2 mb-0 mt-5">Leave message:</h6>
                 <form>
-                    <div className="mb-3">
-                        <label htmlFor="author" className="form-label">Name</label>
-                        <input
-                            value={author}
-                            type="text"
-                            className="form-control"
-                            id="author"
-                            placeholder="Your name"
-                            onChange={(e) => setAuthor(e.target.value)}/>
-                    </div>
                     <div className="mb-3">
                         <label htmlFor="text" className="form-label">Message</label>
                         <textarea

@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {toggleCheckbox} from '../../store/profile';
+import {toggleCheckbox} from '~/store/profile';
 
 export const Profile = () => {
     const {isEnabled, user} = useSelector(state => state.profile);
@@ -9,7 +9,8 @@ export const Profile = () => {
     return (
         <>
             <h1>Profile</h1>
-            <h3>Hi, {user.name}</h3>
+            <h3>Hi, {user.displayName}</h3>
+            <p>{user.email}</p>
             <input
                 type="checkbox"
                 checked={isEnabled}

@@ -7,6 +7,8 @@ import './styles/app.sass';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {store, persistor} from './store';
+import lodash from 'lodash';
+window._ = lodash;
 
 const theme = createTheme({
     bb: {
@@ -21,6 +23,7 @@ ReactDOM.render(
                 <ThemeProvider theme={theme}>
                     <BrowserRouter>
                         <Switch>
+                            <Route path="*/:page" component={App}/>
                             <Route path="*" component={App}/>
                         </Switch>
                     </BrowserRouter>

@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getDepartments} from '../../store/museum';
+import {getDepartments} from '~/store/museum';
 
 export const Museum = () => {
     const {loading, departments, error} = useSelector(state => state.museum);
