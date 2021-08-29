@@ -1,16 +1,17 @@
-import {ADD_MESSAGE} from './types';
+import {ADD_MESSAGE, GET_MESSAGES} from './types';
 import {nanoid} from 'nanoid';
 
 const initialState = {
-    messages: {
-        general: [],
-        friends: [],
-        family: [],
-    },
+    messages: {},
 };
 
 export const messagesReducer = (state = initialState, {type, payload}) => {
     switch (type) {
+        case GET_MESSAGES:
+            return {
+                ...state,
+                messages: payload,
+            };
         case ADD_MESSAGE:
             return {
                 ...state,

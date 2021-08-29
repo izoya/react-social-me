@@ -1,4 +1,4 @@
-import {ADD_MESSAGE} from './types';
+import {ADD_MESSAGE, GET_MESSAGES} from './types';
 
 export const addMessage = (message, channelAlias) => ({
     type: ADD_MESSAGE,
@@ -6,4 +6,9 @@ export const addMessage = (message, channelAlias) => ({
         message,
         channelAlias,
     },
+});
+
+export const getMessagesSuccess = (messages) => ({
+    type: GET_MESSAGES,
+    payload: messages,
 });

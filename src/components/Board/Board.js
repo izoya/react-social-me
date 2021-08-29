@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Grid, makeStyles, Paper} from '@material-ui/core';
+import {getChannelsFB} from '~/store/channels';
+import {getMessagesFB} from '~/store/messages';
 import {Messages, Channels} from '../../components';
 import {Route, useHistory, Switch, useRouteMatch} from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -15,9 +17,16 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+const addChannel = () => {
+    // firebaseDB.ref('channels').child('general').set({id: 1, name: 'General', alias: 'general'});
+    // firebaseDB.ref('channels').child('friends').set({id: 2, name: 'Friends', alias: 'friends'});
+    // firebaseDB.ref('channels').child('family').set({id: 3, name: 'Family', alias: 'family'});
+};
+
 export const Board = () => {
     const classes = useStyles();
     const routeMatch = useRouteMatch();
+    const dispatch = useDispatch();
     const history = useHistory();
     const {channels} = useSelector(state => state.channels);
 
@@ -28,6 +37,11 @@ export const Board = () => {
             history.push(`${routeMatch.url}/${channels[0].alias}`);
         }
     }, [routeMatch]);
+
+    useEffect(() => {
+        dispatch(getChannelsFB());
+        dispatch(getMessagesFB());
+    }, [dispatch]);
 
     return (
         <div className={classes.root}>
