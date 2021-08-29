@@ -1,50 +1,39 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {Paper} from '@material-ui/core';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {useParams} from 'react-router-dom';
+import {addMessage} from '../../store/messages';
 
-export const Messages = ({messages, addMessage, channel, classes}) => {
+export const Messages = ({classes}) => {
+    const dispatch = useDispatch();
     const [author, setAuthor] = useState('');
     const [text, setText] = useState('');
-    const [currentChannel, setCurrentChannel] = useState({});
+
     const inputRef = useRef(null);
-    const params = useParams();
+    const {channelAlias} = useParams();
+    const messages = useSelector(({messages}) => messages.messages[channelAlias] || [], shallowEqual);
 
     useEffect(() => {
         inputRef.current.focus();
-    }, [inputRef, params]);
-
-    useEffect(() => {
-        const currentChannel = messages?.find((item) => {
-            return item.channelId === channel.id;
-        });
-        setCurrentChannel({...currentChannel});
-    }, [messages, channel]);
+    }, [inputRef, channelAlias]);
 
     const handleAddMessage = useCallback((e) => {
         e.preventDefault();
-        addMessage({
-            author,
-            text,
-            channel,
-        });
+        if (!text) return;
+        dispatch(addMessage(
+            {author, text},
+            channelAlias
+        ));
         setText('');
         inputRef.current.focus();
-    }, [author, text, channel]);
+    }, [author, text, channelAlias]);
 
     return (
         <Paper className={classes.paper}>
-            <h1 className="h4 mb-0 lh-1">Messages from {channel.name}</h1>
             <div className="my-3 p-3 bg-body rounded shadow-sm">
-                {currentChannel?.messages
-                    ? currentChannel.messages.map((message, index) => <div className="d-flex text-muted pt-3" key={index}>
-                        <svg className="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
-                            xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
-                            preserveAspectRatio="xMidYMid slice" focusable="false">
-                            <title>{message.author}</title>
-                            <rect width="100%" height="100%" fill="#e83e8c"/>
-                            <text x="50%" y="50%" fill="#e83e8c" dy=".3em">32x32</text>
-                        </svg>
+                {messages
+                    ? messages.map((message, id) => <div className="d-flex text-muted pt-3" key={id}>
                         <p className="pb-3 mb-0 small lh-sm border-bottom d-block w-100">
                             <strong className="d-block text-gray-dark mb-2">@{message.author}</strong>
                             {message.text}
@@ -86,18 +75,5 @@ export const Messages = ({messages, addMessage, channel, classes}) => {
 };
 
 Messages.propTypes = {
-    messages: PropTypes.arrayOf(
-        PropTypes.shape({
-            channelId: PropTypes.number,
-            messages: PropTypes.arrayOf(
-                PropTypes.shape({
-                    author: PropTypes.string,
-                    text: PropTypes.string,
-                })
-            ),
-        })
-    ).isRequired,
-    addMessage: PropTypes.func.isRequired,
-    channel: PropTypes.object.isRequired,
     classes: PropTypes.object,
 };

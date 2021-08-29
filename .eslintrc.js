@@ -54,7 +54,9 @@ module.exports = {
         {
             files: ['*.js', '*.jsx'],
             rules: {
-                indent: ['error', 4],
+                indent: ['error', 4, {
+                    SwitchCase: 1,
+                }],
             },
         },
     ],
